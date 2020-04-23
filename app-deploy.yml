@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: my-project
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      run: app
+  template:
+    metadata:
+      labels:
+        run: app
+    spec:
+      containers:
+      - image: 853908049944.dkr.ecr.eu-west-1.amazonaws.com/adrian-whittle/app:__VERSION__
+        imagePullPolicy: IfNotPresent
+        name: app
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        livenessProbe:
+            httpGet:
+                path: /api/version
+                port: 5000
+            initialDelaySeconds: 3
+            periodSeconds: 3

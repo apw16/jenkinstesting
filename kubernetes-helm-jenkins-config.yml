@@ -1,0 +1,16 @@
+# We need to install some Jenkins plugins (mostly the blueocean one)
+master:
+  # Weekly Jenkins release rather than Long Term Support
+  tag: latest
+
+  # Expose to outside the cluster
+  serviceType: LoadBalancer
+
+  # Install these Jenkins plugins
+  installPlugins:
+    - blueocean:1.21.0
+    - kubernetes:1.23.0
+    - workflow-aggregator:2.6
+    - credentials-binding:1.20
+    - sonar:2.11
+    - cobertura:1.15
